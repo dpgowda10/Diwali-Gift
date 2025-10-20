@@ -1,0 +1,162 @@
+
+Happy Diwali Website - Dhruva P Gowda
+
+Steps to host on GitHub Pages:
+
+1. Go to https://github.com and login or create an account.
+2. Click the "+" icon → New Repository.
+3. Name the repository: Happy-Diwali-Dhruva
+4. Set it to Public → Create Repository.
+5. Click "Add file" → "Upload files"
+6. Drag and drop the contents of this ZIP (index.html)
+7. Commit changes
+8. Go to Settings → Pages
+   - Branch: main
+   - Folder: / (root)
+   - Save
+9. Wait 1-2 minutes. Your website will be live at:
+   https://yourusername.github.io/Happy-Diwali-Dhruva/
+
+Enjoy your Diwali website! 🎆🪔
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Diwali - Dhruva P Gowda 🎇</title>
+  <style>
+    body {
+      margin:0;
+      padding:0;
+      background: radial-gradient(circle at top, #000022, #000033);
+      text-align: center;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+    }
+    h1 {
+      font-size: 3em;
+      text-shadow: 2px 2px 10px #000;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #fff, 0 0 20px gold, 0 0 30px orange; }
+      to { text-shadow: 0 0 20px #fff, 0 0 30px yellow, 0 0 40px red; }
+    }
+    button {
+      background-color: gold;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 12px;
+      font-size: 1.2em;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: 0.3s;
+      box-shadow: 0 0 15px white;
+    }
+    button:hover {
+      background-color: white;
+      color: #ff6600;
+      transform: scale(1.1);
+    }
+    #gif {
+      margin-top: 20px;
+      display: none;
+      max-width: 90%;
+      border-radius: 15px;
+      box-shadow: 0 0 20px gold;
+    }
+    #credit {
+      position: absolute;
+      bottom: 10px;
+      font-size: 1em;
+      color: #ffd700;
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fireworks"></canvas>
+  <h1>🎆 Happy Diwali! 🪔</h1>
+  <button onclick="showMagic()">✨ Click for Diwali Magic ✨</button>
+  <img id="gif" alt="Diwali GIF" />
+  <audio id="sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_50b2d32a45.mp3?filename=fireworks-108252.mp3"></audio>
+  <div id="credit">Made with ❤️ by Dhruva P Gowda</div>
+  <script>
+    const gifs = [
+      "https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif",
+      "https://media.giphy.com/media/l41lFw057lAJQMwg0/giphy.gif",
+      "https://media.giphy.com/media/xT8qBepJQzUjO1ZT68/giphy.gif",
+      "https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif"
+    ];
+    function showMagic() {
+      const gif = document.getElementById('gif');
+      const sound = document.getElementById('sound');
+      gif.src = gifs[Math.floor(Math.random() * gifs.length)];
+      gif.style.display = 'block';
+      sound.play();
+      launchFireworks();
+    }
+
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let particles = [];
+
+    function launchFireworks() {
+      for (let i = 0; i < 80; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          radius: Math.random() * 3 + 1,
+          color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+          speedX: (Math.random() - 0.5) * 8,
+          speedY: (Math.random() - 0.5) * 8,
+          alpha: 1
+        });
+      }
+    }
+
+    function animate() {
+      ctx.fillStyle = "rgba(0,0,0,0.15)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, index) => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.alpha -= 0.01;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+        if (p.alpha <= 0) {
+          particles.splice(index, 1);
+        }
+      });
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
